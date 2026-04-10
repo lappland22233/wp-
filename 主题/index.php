@@ -79,7 +79,7 @@ get_header();
 						<?php
 						// 收集精选文章 ID
 						$featured_ids = array();
-						$fq           = neo_brutalism_get_featured_posts( -1 );
+						$fq           = neo_brutalism_get_featured_posts( -1, true );
 						if ( $fq->have_posts() ) {
 							while ( $fq->have_posts() ) {
 								$fq->the_post();
