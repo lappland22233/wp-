@@ -80,7 +80,7 @@ get_header();
 		<!-- ==========================================
 		     内容区域：文章列表 + 侧边栏
 		     ========================================== -->
-		<div class="content-grid" style="display: grid; gap: 2.5rem; grid-template-columns: 1fr 320px;">
+		<div class="content-grid">
 			<div class="content-area">
 				<!-- 列表标题 -->
 				<div class="posts-section-header">

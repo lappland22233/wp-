@@ -60,7 +60,7 @@ get_header();
 		</div>
 
 		<!-- 内容区域 -->
-		<div class="content-grid" style="display: grid; gap: 2.5rem; grid-template-columns: 1fr 320px;">
+		<div class="content-grid">
 			<div class="content-area">
 				<!-- 搜索结果列表 -->
 				<div class="posts-grid">
