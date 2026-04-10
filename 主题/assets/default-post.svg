@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f5f5f4"/>
+  <rect x="300" y="150" width="200" height="200" fill="#d6d3d1" rx="8"/>
+  <circle cx="360" cy="210" r="30" fill="#a8a29e"/>
+  <rect x="340" y="260" width="120" height="12" fill="#a8a29e" rx="6"/>
+  <rect x="320" y="285" width="160" height="8" fill="#d6d3d1" rx="4"/>
+  <rect x="330" y="300" width="140" height="8" fill="#d6d3d1" rx="4"/>
+  <text x="400" y="420" font-family="sans-serif" font-size="18" fill="#78716c" text-anchor="middle">暂无封面图片</text>
+</svg>
