@@ -133,11 +133,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<line x1="4" x2="20" y1="18" y2="18"></line>
 					</svg>
 				</button>
-
-				<!-- 订阅按钮 -->
-				<a href="#newsletter" class="subscribe-btn" id="subscribe-link">
-					<?php esc_html_e( '订阅', 'neo-brutalism-blog' ); ?>
-				</a>
 			</div>
 		</div><!-- .header-inner -->
 
