@@ -363,10 +363,11 @@ class Neo_Brutalism_Nav_Walker extends Walker_Nav_Menu {
 	 * @param int    $id     当前元素 ID。
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $item->classes ), $item, $args, $depth ) );
+		$item_classes = is_array( $item->classes ) ? $item->classes : array();
+		$class_names  = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $item_classes ), $item, $args, $depth ) );
 
 		$link_classes = 'nav-link';
-		if ( in_array( 'current-menu-item', $item->classes ) || in_array( 'current-page-ancestor', $item->classes ) ) {
+		if ( in_array( 'current-menu-item', $item_classes, true ) || in_array( 'current-page-ancestor', $item_classes, true ) ) {
 			$link_classes .= ' current-page';
 		}
 

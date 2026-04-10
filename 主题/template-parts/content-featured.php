@@ -33,18 +33,31 @@ if ( empty( $thumb_url ) ) {
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'featured-post' ); ?>>
 	<!-- 封面图 -->
 	<div class="featured-post-image-wrapper">
-		<?php if ( has_post_thumbnail() ) : ?>
-			<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-				<?php the_post_thumbnail( 'post-card-thumb', array( 'class' => 'featured-post-image' ) ); ?>
-			</a>
-		<?php else : ?>
-			<img
-				src="<?php echo esc_url( $thumb_url ); ?>"
-				alt="<?php echo esc_attr( get_the_title() ); ?>"
-				class="featured-post-image"
-				onerror="this.src='<?php echo esc_url( NEO_BRUTALISM_URI . '/assets/default-post.svg' ); ?>'"
-			/>
-		<?php endif; ?>
+			<?php if ( has_post_thumbnail() ) : ?>
+				<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
+					<?php
+					the_post_thumbnail(
+						'post-card-thumb',
+						array(
+							'class'         => 'featured-post-image',
+							'loading'       => 'eager',
+							'fetchpriority' => 'high',
+							'decoding'      => 'async',
+						)
+					);
+					?>
+				</a>
+			<?php else : ?>
+				<img
+					src="<?php echo esc_url( $thumb_url ); ?>"
+					alt="<?php echo esc_attr( get_the_title() ); ?>"
+					class="featured-post-image"
+					onerror="this.src='<?php echo esc_url( NEO_BRUTALISM_URI . '/assets/default-post.svg' ); ?>'"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				/>
+			<?php endif; ?>
 
 		<span class="featured-badge"><?php esc_html_e( '精选', 'neo-brutalism-blog' ); ?></span>
 	</div>

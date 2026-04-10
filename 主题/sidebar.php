@@ -57,14 +57,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<ul class="category-list">
 			<?php
-			$categories = get_categories(
-				array(
-					'orderby'    => 'count',
-					'order'      => 'DESC',
-					'hide_empty => true,
-					'number'     => 10,
-				)
-			);
+				$categories = get_categories(
+					array(
+						'orderby'    => 'count',
+						'order'      => 'DESC',
+						'hide_empty' => true,
+						'number'     => 10,
+					)
+				);
 
 			if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) :
 				foreach ( $categories as $cat ) :
