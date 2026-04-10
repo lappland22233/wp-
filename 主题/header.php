@@ -55,38 +55,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'menu_id'        => 'primary-menu',
 							'depth'          => 1,
 							'walker'         => new Neo_Brutalism_Nav_Walker(),
-							'fallback_cb'    => false,
 						)
 					);
-				} else {
-					// 默认导航链接（当没有设置自定义菜单时显示）
-					echo '<ul class="main-menu" id="primary-menu">';
-					$default_nav_items = array(
-						array(
-							'title' => esc_html__( '首页', 'neo-brutalism-blog' ),
-							'url'   => home_url( '/' ),
-						),
-						array(
-							'title' => esc_html__( '文章', 'neo-brutalism-blog' ),
-							'url'   => home_url( '/?post_type=post' ),
-						),
-						array(
-							'title' => esc_html__( '分类', 'neo-brutalism-blog' ),
-							'url'   => home_url( '/?taxonomy=category' ),
-						),
-						array(
-							'title' => esc_html__( '关于', 'neo-brutalism-blog' ),
-							'url'   => home_url( '/?page_id=' . neo_brutalism_get_about_page_id() ),
-						),
-					);
-					foreach ( $default_nav_items as $item ) {
-						printf(
-							'<li><a href="%s" class="nav-link">%s</a></li>',
-							esc_url( $item['url'] ),
-							esc_html( $item['title'] )
-						);
-					}
-					echo '</ul>';
 				}
 				?>
 			</nav>
@@ -194,15 +164,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</nav>
 	</header><!-- #site-header -->
 
-<?php
-/**
- * 辅助函数：获取"关于"页面 ID
- */
-function neo_brutalism_get_about_page_id() {
-	$about_page = get_page_by_path( 'about' );
-	if ( $about_page ) {
-		return $about_page->ID;
-	}
-	return 0;
-}
-?>
+
