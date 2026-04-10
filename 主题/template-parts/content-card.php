@@ -16,36 +16,26 @@ $category   = ! empty( $categories ) ? $categories[0] : null;
 
 // 作者信息
 $author      = get_the_author_meta( 'display_name' );
-$initial     = mb_substr( $author, 0, 1, 'UTF-8' );
 
 // 评论数
 $comments_count = get_comments_number();
 
-// 特色图片 URL
-$thumb_url = '';
-if ( has_post_thumbnail() ) {
-	$thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'post-card-thumb' );
-}
-if ( empty( $thumb_url ) ) {
-	$thumb_url = esc_url( NEO_BRUTALISM_URI . '/assets/default-post.svg' );
-}
+// 预览图 URL：特色图 > 正文第一张图 > 外部图源
+$thumb_url = neo_brutalism_get_post_preview_image( get_the_ID(), 'post-card-thumb' );
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'post-card' ); ?>>
 	<!-- 卡片封面图 -->
 	<div class="post-card-image-wrapper">
 		<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-			<?php if ( has_post_thumbnail() ) : ?>
-				<?php the_post_thumbnail( 'post-card-thumb', array( 'class' => 'post-card-image' ) ); ?>
-			<?php else : ?>
-				<img
-					src="<?php echo esc_url( $thumb_url ); ?>"
-					alt="<?php echo esc_attr( get_the_title() ); ?>"
-					class="post-card-image"
-					onerror="this.src='<?php echo esc_url( NEO_BRUTALISM_URI . '/assets/default-post.svg' ); ?>'"
-					loading="lazy"
-				/>
-			<?php endif; ?>
+			<img
+				src="<?php echo esc_url( $thumb_url ); ?>"
+				alt="<?php echo esc_attr( get_the_title() ); ?>"
+				class="post-card-image"
+				onerror="this.src='<?php echo esc_url( NEO_BRUTALISM_URI . '/assets/default-post.svg' ); ?>'"
+				loading="lazy"
+				decoding="async"
+			/>
 		</a>
 
 		<!-- 分类标签角标 -->

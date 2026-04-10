@@ -233,6 +233,33 @@ add_action( 'widgets_init', 'neo_brutalism_widgets_init' );
  * 4. 自定义函数
  * ===================================================== */
 
+
+/**
+ * 获取文章预览图 URL。
+ * 优先级：特色图 > 正文第一张图 > 外部随机图接口。
+ *
+ * @param int    $post_id 文章 ID。
+ * @param string $size    缩略图尺寸。
+ * @return string
+ */
+function neo_brutalism_get_post_preview_image( $post_id = 0, $size = 'post-card-thumb' ) {
+	$post_id = $post_id ? (int) $post_id : get_the_ID();
+
+	if ( has_post_thumbnail( $post_id ) ) {
+		$thumbnail_url = get_the_post_thumbnail_url( $post_id, $size );
+		if ( ! empty( $thumbnail_url ) ) {
+			return $thumbnail_url;
+		}
+	}
+
+	$content = get_post_field( 'post_content', $post_id );
+	if ( ! empty( $content ) && preg_match( '/<img[^>]+src=["\']([^"\']+)["\']/i', $content, $matches ) ) {
+		return $matches[1];
+	}
+
+	return 'https://api.lappland.top';
+}
+
 /**
  * 获取作者头像字母回退
  * 当没有设置头像时显示作者名字首字
@@ -294,6 +321,8 @@ function neo_brutalism_get_featured_posts( $count = 1, $strict_featured_only = f
 		'ignore_sticky_posts' => true,
 		'meta_key'            => '_is_featured',
 		'meta_value'          => '1',
+		'orderby'             => 'date',
+		'order'               => 'DESC',
 	);
 
 	// 如果没有标记为精选的文章，则使用最新置顶文章作为备选
@@ -308,12 +337,16 @@ function neo_brutalism_get_featured_posts( $count = 1, $strict_featured_only = f
 				'posts_per_page'      => $count,
 				'post__in'            => $sticky,
 				'ignore_sticky_posts' => true,
+				'orderby'             => 'date',
+				'order'               => 'DESC',
 			);
 		} elseif ( ! $strict_featured_only ) {
 			$args = array(
 				'post_type'      => 'post',
 				'post_status'    => 'publish',
 				'posts_per_page' => $count,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
 			);
 		}
 
@@ -341,6 +374,25 @@ function neo_brutalism_get_trending_posts( $count = 5 ) {
 	);
 }
 
+
+
+/**
+ * 统一博客列表排序：按发布时间倒序（最新在前）。
+ *
+ * @param WP_Query $query 查询对象。
+ * @return void
+ */
+function neo_brutalism_sort_posts_by_date_desc( $query ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+
+	if ( $query->is_home() || $query->is_archive() || $query->is_search() ) {
+		$query->set( 'orderby', 'date' );
+		$query->set( 'order', 'DESC' );
+	}
+}
+add_action( 'pre_get_posts', 'neo_brutalism_sort_posts_by_date_desc' );
 
 /**
  * =====================================================
