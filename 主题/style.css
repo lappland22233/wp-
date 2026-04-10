@@ -290,26 +290,34 @@ button {
   min-width: 0;
 }
 
+.content-grid {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .widget-area {
-  width: 320px;
+  width: 100%;
   flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
-  .widget-area {
-    width: 100%;
+@media (min-width: 768px) {
+  .content-grid {
+    grid-template-columns: minmax(0, 1fr) 300px;
   }
 
-  .content-grid {
-    display: grid;
-    gap: 2.5rem;
-    grid-template-columns: 1fr !important;
+  .widget-area {
+    width: 300px;
   }
 }
 
 @media (min-width: 1024px) {
   .content-grid {
-    grid-template-columns: 1fr 340px !important;
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+
+  .widget-area {
+    width: 340px;
   }
 }
 
