@@ -282,10 +282,11 @@ function neo_brutalism_reading_time( $post_id = 0 ) {
 /**
  * 获取精选文章（通过 sticky posts 或自定义字段实现）
  *
- * @param int $count 要获取的文章数量。
+ * @param int  $count                要获取的文章数量。
+ * @param bool $strict_featured_only 是否仅返回真实精选来源（自定义精选或 sticky）。
  * @return WP_Query
  */
-function neo_brutalism_get_featured_posts( $count = 1 ) {
+function neo_brutalism_get_featured_posts( $count = 1, $strict_featured_only = false ) {
 	$args = array(
 		'post_type'           => 'post',
 		'post_status'         => 'publish',
@@ -308,13 +309,14 @@ function neo_brutalism_get_featured_posts( $count = 1 ) {
 				'post__in'            => $sticky,
 				'ignore_sticky_posts' => true,
 			);
-		} else {
+		} elseif ( ! $strict_featured_only ) {
 			$args = array(
 				'post_type'      => 'post',
 				'post_status'    => 'publish',
 				'posts_per_page' => $count,
 			);
 		}
+
 		$featured_query = new WP_Query( $args );
 	}
 
