@@ -60,6 +60,31 @@ get_header();
 				<!-- 文章列表主区域 -->
 				<div class="content-area">
 
+					<?php
+					// 收集精选文章 ID
+					$featured_ids = array();
+					$fq           = neo_brutalism_get_featured_posts( -1, true );
+					if ( $fq->have_posts() ) {
+						while ( $fq->have_posts() ) {
+							$fq->the_post();
+							$featured_ids[] = get_the_ID();
+						}
+						wp_reset_postdata();
+					}
+
+					// 创建排除精选的次级查询（避免干扰主查询）
+					$regular_args = array(
+						'post_type'      => 'post',
+						'post_status'    => 'publish',
+						'posts_per_page' => get_option( 'posts_per_page', 10 ),
+						'post__not_in'   => $featured_ids,
+						'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
+						'orderby'        => 'date',
+						'order'          => 'DESC',
+					);
+					$regular_query = new WP_Query( $regular_args );
+					?>
+
 					<!-- 列表标题栏 -->
 					<div class="posts-section-header">
 						<h2 class="posts-section-title"><?php esc_html_e( '最新文章', 'neo-brutalism-blog' ); ?></h2>
@@ -77,26 +102,6 @@ get_header();
 					<!-- 文章卡片网格 -->
 					<div class="posts-grid">
 						<?php
-						// 收集精选文章 ID
-						$featured_ids = array();
-						$fq           = neo_brutalism_get_featured_posts( -1, true );
-						if ( $fq->have_posts() ) {
-							while ( $fq->have_posts() ) {
-								$fq->the_post();
-								$featured_ids[] = get_the_ID();
-							}
-							wp_reset_postdata();
-						}
-
-						// 创建排除精选的次级查询（避免干扰主查询）
-						$regular_args = array(
-							'post_type'      => 'post',
-							'post_status'    => 'publish',
-							'posts_per_page' => get_option( 'posts_per_page', 10 ),
-							'post__not_in'   => $featured_ids,
-							'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
-						);
-						$regular_query = new WP_Query( $regular_args );
 
 						if ( $regular_query->have_posts() ) :
 
@@ -123,29 +128,6 @@ get_header();
 						?>
 					</div><!-- .posts-grid -->
 
-					<!-- 加载更多 / 分页 -->
-					<?php if ( have_posts() || $wp_query->max_num_pages > 1 ) : ?>
-						<div class="load-more-container">
-							<?php
-							the_posts_pagination(
-								array(
-									'mid_size'  => 2,
-									'prev_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>',
-									'next_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>',
-									'class'     => 'pagination',
-								)
-							);
-							?>
-
-							<!-- 如果使用 AJAX 加载更多，可取消下面的注释 -->
-							<!--
-							<button type="button" class="load-more-btn" id="load-more-posts">
-								<?php esc_html_e( '加载更多文章', 'neo-brutalism-blog' ); ?>
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-							</button>
-							-->
-						</div>
-					<?php endif; ?>
 				</div><!-- .content-area -->
 
 				<!-- 侧边栏 -->

@@ -14,40 +14,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 $categories = get_the_category();
 $category   = ! empty( $categories ) ? $categories[0] : null;
 
-// 作者首字
-$author      = get_the_author_meta( 'display_name' );
-$initial     = mb_substr( $author, 0, 1, 'UTF-8' );
-$author_avatar = get_avatar( get_the_author_meta( 'ID' ), 72, '', $initial );
+// 作者信息
+$author = get_the_author_meta( 'display_name' );
 
-// 特色图片 URL
-$thumbnail_id = get_post_thumbnail_id();
-$thumb_url    = '';
-if ( $thumbnail_id ) {
-	$thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'post-card-thumb' );
-}
-if ( empty( $thumb_url ) ) {
-	$thumb_url = esc_url( NEO_BRUTALISM_URI . '/assets/default-post.svg' );
-}
+// 预览图 URL：特色图 > 正文第一张图 > 外部图源
+$thumb_url = neo_brutalism_get_post_preview_image( get_the_ID(), 'post-card-thumb' );
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'featured-post' ); ?>>
 	<!-- 封面图 -->
 	<div class="featured-post-image-wrapper">
-			<?php if ( has_post_thumbnail() ) : ?>
-				<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-					<?php
-					the_post_thumbnail(
-						'post-card-thumb',
-						array(
-							'class'         => 'featured-post-image',
-							'loading'       => 'eager',
-							'fetchpriority' => 'high',
-							'decoding'      => 'async',
-						)
-					);
-					?>
-				</a>
-			<?php else : ?>
+			<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
 				<img
 					src="<?php echo esc_url( $thumb_url ); ?>"
 					alt="<?php echo esc_attr( get_the_title() ); ?>"
@@ -57,7 +34,7 @@ if ( empty( $thumb_url ) ) {
 					fetchpriority="high"
 					decoding="async"
 				/>
-			<?php endif; ?>
+			</a>
 
 		<span class="featured-badge"><?php esc_html_e( '精选', 'neo-brutalism-blog' ); ?></span>
 	</div>
