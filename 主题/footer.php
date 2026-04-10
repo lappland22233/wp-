@@ -73,15 +73,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php else : ?>
 						<h4 class="footer-heading"><?php esc_html_e( '联系', 'neo-brutalism-blog' ); ?></h4>
 						<div class="footer-contact">
-							<?php
-							$admin_email = sanitize_email( get_option( 'admin_email' ) );
-							$display_name = get_bloginfo( 'name' );
-							$email_domain  = substr( strrchr( $admin_email, '@' ), 1 );
-							$simple_email   = 'hello@' . $email_domain;
-							?>
-							<a href="mailto:<?php echo esc_attr( $simple_email ); ?>"><?php echo esc_html( $simple_email ); ?></a>
-							<a href="https://github.com/<?php echo esc_attr( str_replace( ' ', '-', strtolower( $display_name ) ) ); ?>" target="_blank" rel="noopener noreferrer">GitHub</a>
-							<a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">Twitter / X</a>
+							<a href="mailto:lappland@krsi.top">lappland@krsi.top</a>
+							<a href="https://github.com/lappland22233" target="_blank" rel="noopener noreferrer">GitHub</a>
 						</div>
 					<?php endif; ?>
 				</div>
