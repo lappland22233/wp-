@@ -1456,7 +1456,7 @@ button {
 }
 
 @media (min-width: 1280px) {
-  .single-post,
+  .single .site-main > article.single-post,
   .page .site-main > article {
     max-width: 920px;
     margin-left: auto;
