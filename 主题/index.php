@@ -65,12 +65,11 @@ get_header();
 						<h2 class="posts-section-title"><?php esc_html_e( '最新文章', 'neo-brutalism-blog' ); ?></h2>
 						<span class="posts-count">
 							<?php
-							global $wp_query;
-								/* translators: %s: 文章总数 */
-								echo sprintf(
-									esc_html__( '共 %s 篇', 'neo-brutalism-blog' ),
-									esc_html( number_format_i18n( $wp_query->found_posts ) )
-								);
+							/* translators: %s: 文章总数 */
+							echo sprintf(
+								esc_html__( '共 %s 篇', 'neo-brutalism-blog' ),
+								esc_html( number_format_i18n( $regular_query->found_posts ) )
+							);
 							?>
 						</span>
 					</div>
@@ -78,7 +77,7 @@ get_header();
 					<!-- 文章卡片网格 -->
 					<div class="posts-grid">
 						<?php
-						// 预先收集精选文章 ID（避免在循环内重复查询）
+						// 收集精选文章 ID
 						$featured_ids = array();
 						$fq           = neo_brutalism_get_featured_posts( -1 );
 						if ( $fq->have_posts() ) {
@@ -89,27 +88,37 @@ get_header();
 							wp_reset_postdata();
 						}
 
-						// 重新设置主查询的 post 数据（neo_brutalism_get_featured_posts 内部会重置）
-						wp_reset_postdata();
+						// 创建排除精选的次级查询（避免干扰主查询）
+						$regular_args = array(
+							'post_type'      => 'post',
+							'post_status'    => 'publish',
+							'posts_per_page' => get_option( 'posts_per_page', 10 ),
+							'post__not_in'   => $featured_ids,
+							'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
+						);
+						$regular_query = new WP_Query( $regular_args );
 
-						if ( have_posts() ) :
+						if ( $regular_query->have_posts() ) :
 
-							while ( have_posts() ) :
-								the_post();
-
-								// 排除精选文章（避免在常规列表中重复显示）
-								if ( in_array( get_the_ID(), $featured_ids, true ) ) {
-									continue;
-								}
-
+							while ( $regular_query->have_posts() ) :
+								$regular_query->the_post();
 								get_template_part( 'template-parts/content', 'card' );
-
 							endwhile;
 
-						else :
-							// 无文章时的提示
-							get_template_part( 'template-parts/content', 'none' );
+							// 分页导航
+							echo '<div class="pagination">';
+							echo paginate_links( array(
+								'total'   => $regular_query->max_num_pages,
+								'current' => max( 1, get_query_var( 'paged' ) ),
+								'mid_size' => 2,
+								'prev_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>',
+								'next_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>',
+							) );
+							echo '</div>';
 
+							wp_reset_postdata();
+						else :
+							get_template_part( 'template-parts/content', 'none' );
 						endif;
 						?>
 					</div><!-- .posts-grid -->
