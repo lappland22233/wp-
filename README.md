@@ -92,7 +92,7 @@
 
 ## 许可证
 
-GNU General Public License v2 or later
+ GPL-3.0 license
 
 ---
 
