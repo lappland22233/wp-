@@ -235,7 +235,52 @@
 
 
 	// =====================================================
-	// 4. 订阅表单处理（前端验证）
+	// 4. 固定分页导航显示控制
+	// =====================================================
+
+	var fixedPagination = document.getElementById('fixed-pagination');
+	if (fixedPagination) {
+		var lastScrollTop = window.scrollY || 0;
+		var isPaginationTicking = false;
+		var topThreshold = 200;
+		var bottomThreshold = 120;
+
+		function updateFixedPaginationVisibility() {
+			var currentScrollTop = window.scrollY || 0;
+			var viewportBottom = currentScrollTop + window.innerHeight;
+			var documentBottom = document.documentElement.scrollHeight;
+			var distanceToBottom = documentBottom - viewportBottom;
+			var isScrollingDown = currentScrollTop > lastScrollTop && currentScrollTop > topThreshold;
+			var isNearBottom = distanceToBottom <= bottomThreshold;
+
+			if (isScrollingDown || isNearBottom) {
+				fixedPagination.classList.remove('pagination-hidden');
+				fixedPagination.classList.add('pagination-visible');
+			} else {
+				fixedPagination.classList.remove('pagination-visible');
+				fixedPagination.classList.add('pagination-hidden');
+			}
+
+			lastScrollTop = currentScrollTop;
+			isPaginationTicking = false;
+		}
+
+		window.addEventListener('scroll', function () {
+			if (isPaginationTicking) return;
+			window.requestAnimationFrame(updateFixedPaginationVisibility);
+			isPaginationTicking = true;
+		}, { passive: true });
+
+		window.addEventListener('resize', function () {
+			window.requestAnimationFrame(updateFixedPaginationVisibility);
+		});
+
+		updateFixedPaginationVisibility();
+	}
+
+
+	// =====================================================
+	// 5. 订阅表单处理（前端验证）
 	// =====================================================
 
 	var newsletterForm = document.getElementById('newsletter-form');
@@ -271,7 +316,7 @@
 
 
 	// =====================================================
-	// 5. 入场动画触发器（使用 IntersectionObserver）
+	// 6. 入场动画触发器（使用 IntersectionObserver）
 	// =====================================================
 
 	if ('IntersectionObserver' in window) {
@@ -303,7 +348,7 @@
 
 
 	// =====================================================
-	// 6. 图片加载错误处理
+	// 7. 图片加载错误处理
 	// =====================================================
 
 	var postImages = document.querySelectorAll('.post-card-image, .featured-post-image');
