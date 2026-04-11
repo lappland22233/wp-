@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * 主题设置常量定义
  */
 if ( ! defined( 'NEO_BRUTALISM_VERSION' ) ) {
-	define( 'NEO_BRUTALISM_VERSION', '1.0.1' );
+	define( 'NEO_BRUTALISM_VERSION', '1.0.2' );
 }
 
 if ( ! defined( 'NEO_BRUTALISM_DIR' ) ) {
