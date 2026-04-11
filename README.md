@@ -37,6 +37,13 @@
 
 ## 快速开始
 
+**方法一**
+1. 下载[releases](https://github.com/lappland22233/wp-/releases)的ZIP压缩包
+2. 到wordpress后台的`外观`->`主题`->`安装主题`中上传ZIP压缩包
+3. 激活主题
+4. 开始撰写你的博客文章吧！
+
+**方法二**
 1. 下载主题文件夹
 2. 将 `主题` 文件夹上传到 WordPress 的 `wp-content/themes/` 目录
 3. 在 WordPress 后台「外观」→「主题」中激活主题
