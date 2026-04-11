@@ -124,7 +124,7 @@ get_header();
 
 			<!-- 固定分页导航（页脚上方居中） -->
 			<?php if ( $regular_query->max_num_pages > 1 ) : ?>
-				<div class="fixed-pagination">
+				<div id="fixed-pagination" class="fixed-pagination pagination-hidden">
 					<div class="fixed-pagination-inner">
 						<?php
 						echo paginate_links( array(

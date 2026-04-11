@@ -4,7 +4,7 @@ Theme URI: https://example.com
 Author: Blog Developer
 Author URI: https://example.com
 Description: 一个采用新粗野主义（Neo-Brutalism）设计风格的现代博客主题，具有粗边框、偏移阴影、玫瑰粉色调、暗色模式支持和完整的响应式布局。从 React + Tailwind CSS 设计系统转换而来。
-Version: 1.0.1
+Version: 1.0.2
 Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 7.4
@@ -1344,7 +1344,7 @@ button {
   position: fixed;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(100%);
   z-index: 100;
   padding: 0.75rem 1.5rem;
   background: var(--color-card);
@@ -1352,6 +1352,16 @@ button {
   border-bottom: none;
   border-radius: var(--radius) var(--radius) 0 0;
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.fixed-pagination.pagination-visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.fixed-pagination.pagination-hidden {
+  transform: translateX(-50%) translateY(100%);
 }
 
 .fixed-pagination-inner {

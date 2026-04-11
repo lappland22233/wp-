@@ -7,7 +7,7 @@
  * - 平滑滚动增强
  *
  * @package Neo_Brutalism_Blog
- * @version 1.0.0
+ * @version 1.0.2
  */
 
 (function () {

@@ -94,5 +94,47 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php wp_footer(); ?>
 
+<script>
+(function() {
+  const pagination = document.getElementById('fixed-pagination');
+  if (!pagination) return;
+
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+  const scrollThreshold = 200;
+
+  function updatePaginationVisibility() {
+    const currentScrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight;
+    const winHeight = window.innerHeight;
+    const scrollable = docHeight - winHeight;
+
+    // 用户向下滚动且已滚动一定距离
+    if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+      pagination.classList.remove('pagination-hidden');
+      pagination.classList.add('pagination-visible');
+    }
+    // 用户向上滚动，或在顶部附近，或已到达底部
+    else if (currentScrollY < lastScrollY || currentScrollY <= scrollThreshold || currentScrollY >= scrollable - 50) {
+      pagination.classList.remove('pagination-visible');
+      pagination.classList.add('pagination-hidden');
+    }
+
+    lastScrollY = currentScrollY;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      window.requestAnimationFrame(updatePaginationVisibility);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // 初始化检查
+  updatePaginationVisibility();
+})();
+</script>
+
 </body>
 </html>
