@@ -133,6 +133,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<line x1="4" x2="20" y1="18" y2="18"></line>
 					</svg>
 				</button>
+
+				<!-- 登录/用户按钮 -->
+				<?php if ( is_user_logged_in() ) : ?>
+					<?php
+					$current_user = wp_get_current_user();
+					$user_name    = $current_user->display_name;
+					$user_avatar  = get_avatar( $current_user->ID, 28, '', $user_name, array( 'class' => 'user-avatar-img' ) );
+					?>
+					<a href="<?php echo esc_url( home_url( '/user/' . $user_name ) ); ?>" class="login-btn user-btn">
+						<?php echo $user_avatar; ?>
+						<span class="user-name"><?php echo esc_html( $user_name ); ?></span>
+					</a>
+				<?php else : ?>
+					<a href="<?php echo esc_url( home_url( '/login' ) ); ?>" class="login-btn">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+							<polyline points="10 17 15 12 10 7"/>
+							<line x1="15" x2="3" y1="12" y2="12"/>
+						</svg>
+						<?php esc_html_e( '登录', 'neo-brutalism-blog' ); ?>
+					</a>
+				<?php endif; ?>
 			</div>
 		</div><!-- .header-inner -->
 
