@@ -31,7 +31,7 @@ get_header();
 			     ========================================== -->
 			<section class="page-hero">
 				<h1 class="page-hero-title">
-					<?php echo esc_html__( '个人博客', 'neo-brutalism-blog' ); ?><span class="accent"><?php echo esc_html__( '笔记', 'neo-brutalism-blog' ); ?></span>
+					<?php echo esc_html__( '个人', 'neo-brutalism-blog' ); ?><span class="accent"><?php echo esc_html__( '笔记', 'neo-brutalism-blog' ); ?></span>
 				</h1>
 				<p class="page-hero-desc">
 					<?php echo esc_html__( '随便写写，没啥技术文章和好看的，仅记录一下只得记住的事情', 'neo-brutalism-blog' ); ?>

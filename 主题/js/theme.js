@@ -6,7 +6,7 @@
  * - 移动端导航菜单展开/收起
  * - 平滑滚动增强
  *
- * @package Neo_Brutalism_Blog
+ * @package lappland22233
  * @version 1.0.2
  */
 
