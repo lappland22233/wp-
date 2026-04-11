@@ -109,13 +109,16 @@ if ( ! defined( 'ABSPATH' ) ) {
     const winHeight = window.innerHeight;
     const scrollable = docHeight - winHeight;
 
-    // 用户向下滚动且已滚动一定距离
-    if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+    const isScrollingDown = currentScrollY > lastScrollY && currentScrollY > scrollThreshold;
+    const isNearBottom = currentScrollY >= scrollable - 50;
+
+    // 用户向下滚动，或者已接近页面底部时显示分页
+    if (isScrollingDown || isNearBottom) {
       pagination.classList.remove('pagination-hidden');
       pagination.classList.add('pagination-visible');
     }
-    // 用户向上滚动，或在顶部附近，或已到达底部
-    else if (currentScrollY < lastScrollY || currentScrollY <= scrollThreshold || currentScrollY >= scrollable - 50) {
+    // 用户向上滚动或在顶部附近时隐藏分页
+    else if (currentScrollY < lastScrollY || currentScrollY <= scrollThreshold) {
       pagination.classList.remove('pagination-visible');
       pagination.classList.add('pagination-hidden');
     }
