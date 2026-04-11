@@ -102,25 +102,11 @@ get_header();
 					<!-- 文章卡片网格 -->
 					<div class="posts-grid">
 						<?php
-
 						if ( $regular_query->have_posts() ) :
-
 							while ( $regular_query->have_posts() ) :
 								$regular_query->the_post();
 								get_template_part( 'template-parts/content', 'card' );
 							endwhile;
-
-							// 分页导航
-							echo '<div class="pagination">';
-							echo paginate_links( array(
-								'total'   => $regular_query->max_num_pages,
-								'current' => max( 1, get_query_var( 'paged' ) ),
-								'mid_size' => 2,
-								'prev_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>',
-								'next_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>',
-							) );
-							echo '</div>';
-
 							wp_reset_postdata();
 						else :
 							get_template_part( 'template-parts/content', 'none' );
@@ -135,6 +121,23 @@ get_header();
 					<?php get_sidebar(); ?>
 				</aside>
 			</div><!-- .content-grid -->
+
+			<!-- 固定分页导航（页脚上方居中） -->
+			<?php if ( $regular_query->max_num_pages > 1 ) : ?>
+				<div class="fixed-pagination">
+					<div class="fixed-pagination-inner">
+						<?php
+						echo paginate_links( array(
+							'total'   => $regular_query->max_num_pages,
+							'current' => max( 1, get_query_var( 'paged' ) ),
+							'mid_size' => 2,
+							'prev_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>',
+							'next_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>',
+						) );
+						?>
+					</div>
+				</div>
+			<?php endif; ?>
 		<?php endif; ?>
 	</main><!-- #site-main -->
 

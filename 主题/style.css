@@ -4,7 +4,7 @@ Theme URI: https://example.com
 Author: Blog Developer
 Author URI: https://example.com
 Description: 一个采用新粗野主义（Neo-Brutalism）设计风格的现代博客主题，具有粗边框、偏移阴影、玫瑰粉色调、暗色模式支持和完整的响应式布局。从 React + Tailwind CSS 设计系统转换而来。
-Version: 1.0.0
+Version: 1.0.1
 Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 7.4
@@ -1335,6 +1335,76 @@ button {
 .newsletter-submit svg {
   width: 1rem;
   height: 1rem;
+}
+
+/* ============================================
+   固定分页导航（页脚上方居中）
+   ============================================ */
+.fixed-pagination {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.fixed-pagination-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fixed-pagination .pagination,
+.fixed-pagination .wp-pagenavi,
+.fixed-pagination .page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fixed-pagination .page-numbers,
+.fixed-pagination a.page-numbers,
+.fixed-pagination span.page-numbers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 0.5rem;
+  background: var(--color-background);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-foreground);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-shadow: 2px 2px 0px 0px var(--color-border);
+}
+
+.fixed-pagination .page-numbers:hover,
+.fixed-pagination a.page-numbers:hover {
+  background: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 0px 0px var(--color-border);
+}
+
+.fixed-pagination .page-numbers.current,
+.fixed-pagination span.page-numbers.current {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border-color: var(--color-primary);
+  box-shadow: 2px 2px 0px 0px var(--color-primary);
 }
 
 /* ============================================
